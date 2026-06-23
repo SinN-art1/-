@@ -11,108 +11,95 @@
 <link rel='icon' href='icon.svg' type='image/svg+xml'>
 <link rel='apple-touch-icon' href='icon.svg'>
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
- --bg: #f6f5f1;
- --card: #ffffff;
- --primary: #1e293b;
- --accent: #d97706;
- --accent-soft: #fbbf24;
- --focus: #2563eb;
- --rest: #059669;
- --text: #334155;
- --text-dim: #94a3b8;
- --border: #e2e8f0;
- --radius: 12px;
- --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
- font-size:15px
-}
-body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;min-height:100vh;display:flex;justify-content:center;padding:16px}
+*,::before,::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#f6f5f1;--card:#fff;--primary:#1e293b;--accent:#d97706;--accent-s:#fbbf24;--focus:#2563eb;--rest:#059669;--txt:#334155;--td:#94a3b8;--br:#e2e8f0;--r:12px;font-size:15px}
+body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif;min-height:100vh;display:flex;justify-content:center;padding:16px}
 .app{max-width:820px;width:100%}
 header{display:flex;justify-content:space-between;align-items:flex-end;padding:12px 4px 16px}
 header h1{font-size:1.6rem;font-weight:700;color:var(--primary);letter-spacing:-.02em}
-header h1 span{color:var(--accent)}
-header .date{font-size:.85rem;color:var(--text-dim)}
-.timer-panel{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 24px 24px;margin-bottom:20px;text-align:center;transition:all .3s}
-.timer-panel .task-label{font-size:.8rem;color:var(--text-dim);margin-bottom:2px;text-transform:uppercase;letter-spacing:.04em}
-.timer-panel .task-name{font-size:1.05rem;font-weight:600;color:var(--primary);margin-bottom:16px;min-height:1.5em}
-.timer-panel .timer-display{font-size:4rem;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.03em;color:var(--primary);line-height:1;margin-bottom:20px;font-feature-settings:"tnum"}
-.timer-panel .timer-display.rest-mode{color:var(--rest)}
-.timer-panel .status-badge{display:inline-block;font-size:.75rem;padding:3px 12px;border-radius:99px;margin-bottom:12px;font-weight:600}
-.status-badge.idle{background:#f1f5f9;color:var(--text-dim)}
-.status-badge.focusing{background:#eff6ff;color:var(--focus)}
-.status-badge.resting{background:#ecfdf5;color:var(--rest)}
-.timer-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
-.timer-actions button{padding:10px 28px;border-radius:99px;border:none;font-size:.9rem;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit}
-.timer-actions .btn-start{background:var(--focus);color:#fff}
-.timer-actions .btn-start:hover{background:#1d4ed8}
-.timer-actions .btn-pause{background:#f1f5f9;color:var(--text)}
-.timer-actions .btn-pause:hover{background:#e2e8f0}
-.timer-actions .btn-reset{background:transparent;color:var(--text-dim);padding:10px 12px}
-.timer-actions .btn-reset:hover{color:var(--text)}
-.timer-panel.idle .timer-display{color:var(--text-dim)}
-.schedule-title{font-size:1.05rem;font-weight:700;color:var(--primary);padding:4px 4px 12px;display:flex;align-items:center;gap:8px}
-.schedule-title .count{font-size:.75rem;font-weight:400;color:var(--text-dim)}
-.schedule{display:flex;flex-direction:column;gap:6px}
-.block{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 16px;display:grid;grid-template-columns:auto 1fr auto;gap:10px 14px;align-items:center;transition:all .2s;border-left:3px solid var(--border);position:relative}
-.block.active{border-left-color:var(--focus);background:#fafcff}
-.block.completed{border-left-color:var(--rest);opacity:.7}
-.block .block-time{font-size:.8rem;font-weight:600;color:var(--text-dim);white-space:nowrap;grid-row:1;grid-column:1}
-.block .block-input{grid-row:2;grid-column:1/3;width:100%}
-.block .block-input input{border:none;background:#f8fafc;padding:8px 12px;border-radius:8px;font-size:.85rem;font-family:inherit;color:var(--text);width:100%;outline:none;transition:background .15s}
-.block .block-input input:focus{background:#eef2ff;box-shadow:0 0 0 2px rgba(37,99,235,.15)}
-.block .block-input input::placeholder{color:var(--text-dim)}
-.block .block-meta{grid-row:1;grid-column:2;font-size:.78rem;color:var(--text-dim);display:flex;gap:12px;align-items:center}
-.block .block-meta .dur{padding:2px 8px;border-radius:4px;background:#f1f5f9;font-weight:500}
-.block .block-actions{grid-row:1/3;grid-column:3;display:flex;flex-direction:column;gap:4px;align-items:center}
-.block .block-actions .btn-block-start{background:var(--focus);color:#fff;border:none;border-radius:99px;padding:6px 18px;font-size:.8rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap}
-.block .block-actions .btn-block-start:hover{background:#1d4ed8}
-.block .block-actions .btn-block-start:disabled{background:#e2e8f0;color:#94a3b8;cursor:not-allowed}
-.block .block-status{font-size:.7rem;color:var(--text-dim);white-space:nowrap}
-.block .block-status.done{color:var(--rest);font-weight:600}
-.timeline-connector{text-align:center;font-size:.7rem;color:var(--text-dim);padding:2px 0;position:relative}
-.timeline-connector::before{content:'';display:block;width:1px;height:8px;background:var(--border);margin:0 auto}
-.rest-label{display:inline-block;background:var(--bg);padding:0 8px;color:var(--text-dim)}
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(4px);z-index:100;justify-content:center;align-items:center;padding:16px}
-.modal-overlay.open{display:flex}
-.modal{background:var(--card);border-radius:16px;padding:32px 28px 28px;max-width:400px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.15);text-align:center;animation:modalIn .25s ease}
-@keyframes modalIn{from{opacity:0;transform:translateY(16px) scale(.97)}}
-.modal h2{font-size:1.15rem;margin-bottom:4px}
-.modal .sub{color:var(--text-dim);font-size:.85rem;margin-bottom:20px}
-.modal-options{display:flex;flex-direction:column;gap:10px}
-.modal-options button{padding:14px 20px;border-radius:12px;border:2px solid var(--border);font-size:.9rem;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit;text-align:left;display:flex;align-items:center;gap:12px}
-.modal-options button:hover{border-color:var(--accent);background:#fffbeb}
-.modal-options button .opt-icon{font-size:1.4rem;flex-shrink:0}
-.modal-options button .opt-text{flex:1}
-.modal-options button .opt-text .opt-title{display:block;font-size:.95rem;color:var(--primary)}
-.modal-options button .opt-text .opt-desc{display:block;font-size:.75rem;color:var(--text-dim);font-weight:400;margin-top:2px}
-.modal .rest-adjust{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:12px;padding:8px;background:#f8fafc;border-radius:10px}
-.modal .rest-adjust label{font-size:.8rem;color:var(--text-dim)}
-.modal .rest-adjust input{width:60px;text-align:center;border:1px solid var(--border);border-radius:6px;padding:4px 8px;font-size:.9rem;font-weight:600;font-family:inherit}
-.modal .rest-adjust .adj-btn{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:4px 10px;cursor:pointer;font-size:1rem;font-weight:700;color:var(--text);font-family:inherit}
-.modal .rest-adjust .adj-btn:hover{background:#f1f5f9}
-.modal .btn-confirm-rest{background:var(--rest);color:#fff;border:none;border-radius:99px;padding:10px 32px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit;margin-top:12px;transition:all .15s}
-.modal .btn-confirm-rest:hover{background:#047857}
-.modal .btn-continue{background:var(--accent);color:#fff;border:none;border-radius:99px;padding:10px 32px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
-.modal .btn-continue:hover{background:#b45309}
-.celebration{display:none;text-align:center;padding:40px 20px;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow)}
-.celebration.show{display:block}
-.celebration .big{font-size:3rem;margin-bottom:8px}
-.celebration h2{font-size:1.3rem;margin-bottom:6px}
-.celebration p{color:var(--text-dim);font-size:.9rem;margin-bottom:16px}
-.celebration .reset-btn{background:var(--accent);color:#fff;border:none;border-radius:99px;padding:10px 28px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit}
-@media (max-width:560px){
-body{padding:8px}
-.app{max-width:100%}
-header h1{font-size:1.3rem}
-.timer-panel{padding:20px 16px 18px}
-.timer-panel .timer-display{font-size:3rem}
-.block{grid-template-columns:1fr auto;gap:6px 10px;padding:12px 14px}
-.block .block-time{grid-row:1;grid-column:1}
-.block .block-meta{grid-row:2;grid-column:1}
-.block .block-input{grid-row:3;grid-column:1/3}
-.block .block-actions{grid-row:1;grid-column:2;justify-self:end}
-.modal{padding:24px 20px}
+header h1 span{color:var(--accent)}header .date{font-size:.85rem;color:var(--td)}
+.timer-panel{background:var(--card);border-radius:var(--r);box-shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);padding:28px 24px 24px;margin-bottom:20px;text-align:center}
+.timer-panel .tl{font-size:.8rem;color:var(--td);margin-bottom:2px;text-transform:uppercase;letter-spacing:.04em}
+.timer-panel .tn{font-size:1.05rem;font-weight:600;color:var(--primary);margin-bottom:16px;min-height:1.5em}
+.timer-panel .td{font-size:4rem;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.03em;color:var(--primary);line-height:1;margin-bottom:20px}
+.timer-panel .td.rm{color:var(--rest)}
+.timer-panel .sb{display:inline-block;font-size:.75rem;padding:3px 12px;border-radius:99px;margin-bottom:12px;font-weight:600}
+.sb.idle{background:#f1f5f9;color:var(--td)}.sb.focus{background:#eff6ff;color:var(--focus)}
+.sb.rest{background:#ecfdf5;color:var(--rest)}
+.ta{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.ta button{padding:10px 28px;border-radius:99px;border:none;font-size:.9rem;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit}
+.ta .bs{background:var(--focus);color:#fff}.ta .bs:hover{background:#1d4ed8}
+.ta .bp{background:#f1f5f9;color:var(--txt)}.ta .bp:hover{background:#e2e8f0}
+.ta .br{background:transparent;color:var(--td);padding:10px 12px}.ta .br:hover{color:var(--txt)}
+.timer-panel.idle .td{color:var(--td)}
+.st{font-size:1.05rem;font-weight:700;color:var(--primary);padding:4px 4px 12px;display:flex;align-items:center;gap:8px}
+.st .cnt{font-size:.75rem;font-weight:400;color:var(--td)}
+.sch{display:flex;flex-direction:column;gap:6px}
+.blk{background:var(--card);border-radius:var(--r);box-shadow:0 1px 3px rgba(0,0,0,.08);padding:14px 16px;display:grid;grid-template-columns:auto 1fr auto auto;gap:10px 10px;align-items:center;border-left:3px solid var(--br);position:relative}
+.blk.act{border-left-color:var(--focus);background:#fafcff}
+.blk.done{border-left-color:var(--rest);opacity:.7}
+.blk .tm{font-size:.8rem;font-weight:600;color:var(--td);white-space:nowrap;grid-row:1;grid-column:1;cursor:pointer;padding:2px 4px;border-radius:4px}
+.blk .tm:hover{background:#f1f5f9}
+.blk .bi{grid-row:2;grid-column:1/4;width:100%}
+.blk .bi input{border:none;background:#f8fafc;padding:8px 12px;border-radius:8px;font-size:.85rem;font-family:inherit;color:var(--txt);width:100%;outline:none}
+.blk .bi input:focus{background:#eef2ff;box-shadow:0 0 0 2px rgba(37,99,235,.15)}
+.blk .bi input::placeholder{color:var(--td)}
+.blk .bm{grid-row:1;grid-column:2;font-size:.78rem;color:var(--td);display:flex;gap:8px;align-items:center}
+.blk .bm .dur{padding:2px 6px;border-radius:4px;background:#f1f5f9;font-weight:500}
+.blk .ba{grid-row:1/3;grid-column:4;display:flex;flex-direction:column;gap:4px;align-items:center}
+.blk .ba .bb{background:var(--focus);color:#fff;border:none;border-radius:99px;padding:6px 16px;font-size:.8rem;font-weight:600;cursor:pointer;font-family:inherit;white-space:nowrap}
+.blk .ba .bb:hover{background:#1d4ed8}
+.blk .ba .bb:disabled{background:#e2e8f0;color:#94a3b8;cursor:not-allowed}
+.blk .ba .be{background:transparent;border:none;color:var(--td);cursor:pointer;font-size:.85rem;padding:2px 6px;border-radius:4px;font-family:inherit}
+.blk .ba .be:hover{background:#f1f5f9;color:var(--txt)}
+.blk .bs2{font-size:.7rem;color:var(--td);white-space:nowrap}
+.blk .bs2.d{color:var(--rest);font-weight:600}
+.tc{text-align:center;font-size:.7rem;color:var(--td);padding:2px 0}
+.tc::before{content:'';display:block;width:1px;height:8px;background:var(--br);margin:0 auto}
+.rl{display:inline-block;background:var(--bg);padding:0 8px;color:var(--td)}
+.abw{text-align:center;padding:12px 0 4px}
+.ab{background:var(--card);border:2px dashed var(--br);border-radius:var(--r);padding:12px 24px;font-size:.85rem;font-weight:600;color:var(--td);cursor:pointer;font-family:inherit;width:100%;transition:all .15s}
+.ab:hover{color:var(--accent);border-color:var(--accent-s);background:#fffbeb}
+.ss{background:var(--card);border-radius:var(--r);box-shadow:0 1px 3px rgba(0,0,0,.08);padding:20px;margin-top:16px;display:none}
+.ss.s{display:block}
+.sst{font-size:1rem;font-weight:700;margin-bottom:12px;color:var(--primary)}
+.sss{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+.ss2{flex:1;min-width:100px;text-align:center;padding:10px;background:#f8fafc;border-radius:8px}
+.ss2 .num{font-size:1.6rem;font-weight:700;color:var(--focus)}
+.ss2 .lbl{font-size:.75rem;color:var(--td);margin-top:2px}
+.ss2.sh .num{color:var(--rest)}.ss2.sm .num{color:var(--accent)}.ss2.sl .num{color:#dc2626}
+.sadv{font-size:.85rem;color:var(--txt);background:#fffbeb;border-left:3px solid var(--accent-s);padding:10px 14px;border-radius:6px;margin-bottom:14px;line-height:1.5}
+.sr{padding-top:10px;border-top:1px solid var(--br)}
+.sr .lbl{font-size:.85rem;color:var(--td);margin-bottom:8px;text-align:center}
+.rb{display:flex;gap:12px;justify-content:center}
+.rb button{font-size:2rem;padding:8px 16px;border:2px solid var(--br);border-radius:12px;background:var(--card);cursor:pointer;transition:all .15s;font-family:inherit;line-height:1}
+.rb button:hover{border-color:var(--accent-s);background:#fffbeb;transform:scale(1.08)}
+.rb button.act{border-color:var(--accent);background:#fffbeb;box-shadow:0 0 0 2px var(--accent-s)}
+.rb button .rl2{display:block;font-size:.65rem;color:var(--td);font-weight:500;margin-top:2px}
+.st2{text-align:center;margin-top:12px}
+.st2 button{background:#f1f5f9;border:none;border-radius:99px;padding:8px 20px;font-size:.8rem;color:var(--td);cursor:pointer;font-family:inherit;font-weight:600}
+.st2 button:hover{background:#e2e8f0;color:var(--txt)}
+.cs{background:var(--card);border-radius:var(--r);box-shadow:0 1px 3px rgba(0,0,0,.08);margin-top:12px;overflow:hidden}
+.ch{display:flex;justify-content:space-between;align-items:center;padding:12px 16px 8px;cursor:pointer;user-select:none}
+.ch .ct{font-size:.9rem;font-weight:600;color:var(--primary)}
+.ch .carr{font-size:.75rem;color:var(--td);transition:transform .2s}
+.ch .carr.o{transform:rotate(180deg)}
+.cb2{max-height:0;overflow:hidden;transition:max-height .3s}
+.cb2.o{max-height:400px}
+.cw{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;font-size:.7rem;color:var(--td);padding:4px 8px 0}
+.cd{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;padding:4px 8px 10px;gap:2px}
+.cd2{padding:6px 2px;border-radius:8px;font-size:.78rem;color:var(--txt);cursor:pointer}
+.cd2:hover{background:#f1f5f9}
+.cd2.t{font-weight:700;background:#eff6ff}
+.cd2.om{color:var(--td);opacity:.4}
+.cd2 .de{display:block;font-size:.7rem;margin-top:1px}
+.cd2 .dn{display:block}
+@media(max-width:560px){
+body{padding:8px}.app{max-width:100%}header h1{font-size:1.3rem}
+.timer-panel{padding:20px 16px 18px}.timer-panel .td{font-size:3rem}
+.blk{grid-template-columns:1fr auto;gap:6px 8px;padding:12px 12px}
+.blk .tm{grid-row:1;grid-column:1}.blk .bm{grid-row:2;grid-column:1}
+.blk .bi{grid-row:3;grid-column:1/3}.blk .ba{grid-row:1;grid-column:2;justify-self:end}
 }
 </style>
 </head>
@@ -123,68 +110,109 @@ header h1{font-size:1.3rem}
 <div class="date" id="dateDisplay"></div>
 </header>
 <div class="timer-panel idle" id="timerPanel">
-<div class="status-badge idle" id="statusBadge">待开始</div>
-<div class="task-label">当前任务</div>
-<div class="task-name" id="taskName">选择下方一个时间段开始</div>
-<div class="timer-display" id="timerDisplay">45:00</div>
-<div class="timer-actions" id="timerActions">
-<button class="btn-start" id="btnStart" disabled>开始专注</button>
-<button class="btn-pause" id="btnPause" style="display:none">暂停</button>
-<button class="btn-reset" id="btnReset" style="display:none">重置</button>
+<div class="sb idle" id="statusBadge">待开始</div>
+<div class="tl">当前任务</div>
+<div class="tn" id="taskName">选择下方一个时间段开始</div>
+<div class="td" id="timerDisplay">45:00</div>
+<div class="ta" id="timerActions">
+<button class="bs" id="btnStart" disabled>开始专注</button>
+<button class="bp" id="btnPause" style="display:none">暂停</button>
+<button class="br" id="btnReset" style="display:none">重置</button>
 </div>
 </div>
-<div class="schedule-title">
-今日日程 <span class="count" id="progressCount">0/8 已完成</span>
+<div class="st">今日日程 <span class="cnt" id="progressCount">0/8 已完成</span></div>
+<div class="sch" id="scheduleContainer"></div>
+<div class="abw"><button class="ab" id="addBlockBtn">+ 添加时间段</button></div>
+<div class="ss" id="summarySection">
+<div class="sst">学习总结</div>
+<div class="sss" id="summaryStats"></div>
+<div class="sadv" id="summaryAdvice"></div>
+<div class="sr"><div class="lbl">今日感受</div>
+<div class="rb">
+<button class="rb" data-value="happy">😊<span class="rl2">满意</span></button>
+<button class="rb" data-value="neutral">😐<span class="rl2">一般</span></button>
+<button class="rb" data-value="sad">😞<span class="rl2">失望</span></button>
+</div></div></div>
+<div class="cs" id="calendarSection">
+<div class="ch" id="calendarToggle">
+<span class="ct" id="calTitle">📅 日历</span>
+<span class="carr" id="calToggleIcon">▼</span>
 </div>
-<div class="schedule" id="scheduleContainer"></div>
-<div class="celebration" id="celebration">
-<div class="big">🎉</div>
-<h2>今日任务全部完成！</h2>
+<div class="cb2" id="calendarBody">
+<div class="cw"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div>
+<div class="cd" id="calendarDays"></div>
+</div></div>
+<div class="st2" style="display:none" id="summaryTrigger"><button id="showSummaryBtn">📊 查看今日总结</button></div>
+<div class="celebration" id="celebration" style="display:none">
+<div class="big">🎉</div><h2>今日任务全部完成！</h2>
 <p>你度过了充实的一天，真棒。</p>
-<button class="reset-btn" onclick="resetDay()">重置，开始新的一天</button>
+<button class="reset-btn" onclick="resetDay()" style="background:var(--accent);color:#fff;border:none;border-radius:99px;padding:10px 28px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit">重置，开始新的一天</button>
+</div></div>
+<div class="modal-overlay" id="editModalOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(4px);z-index:100;justify-content:center;align-items:center;padding:16px">
+<div class="modal" style="background:var(--card);border-radius:16px;padding:28px;max-width:400px;width:100%;max-height:90vh;overflow-y:auto">
+<h2 id="editModalTitle" style="font-size:1.1rem;margin-bottom:4px">编辑时间段</h2>
+<div class="sub" style="color:var(--td);font-size:.85rem;margin-bottom:16px">修改时间段信息</div>
+<div class="mf" style="margin-bottom:12px">
+<label style="display:block;font-size:.78rem;color:var(--td);margin-bottom:3px">任务名称</label>
+<input type="text" id="editTask" placeholder="填写任务…" style="width:100%;padding:8px 12px;border:1px solid var(--br);border-radius:8px;font-size:.9rem;font-family:inherit;color:var(--txt);outline:none">
 </div>
-</div>
-<div class="modal-overlay" id="modalOverlay">
-<div class="modal" id="timerEndModal">
-<h2 id="modalTitle">时间到！</h2>
-<div class="sub" id="modalSub">任务计时已结束</div>
+<div class="mf" style="margin-bottom:12px">
+<label style="display:block;font-size:.78rem;color:var(--td);margin-bottom:3px">时间范围</label>
+<div style="display:flex;gap:8px;align-items:center">
+<input type="time" id="editStart" style="flex:1;padding:8px 12px;border:1px solid var(--br);border-radius:8px;font-size:.9rem;font-family:inherit;color:var(--txt);outline:none">
+<span style="color:var(--td)">至</span>
+<input type="time" id="editEnd" style="flex:1;padding:8px 12px;border:1px solid var(--br);border-radius:8px;font-size:.9rem;font-family:inherit;color:var(--txt);outline:none">
+</div></div>
+<div class="mf" style="margin-bottom:12px">
+<label style="display:block;font-size:.78rem;color:var(--td);margin-bottom:3px">学习时长</label>
+<div style="display:flex;gap:8px;align-items:center">
+<input type="number" id="editFocus" min="5" max="180" value="45" style="flex:1;padding:8px 12px;border:1px solid var(--br);border-radius:8px;font-size:.9rem;font-family:inherit;color:var(--txt);outline:none">
+<span style="font-size:.8rem;color:var(--td)">分钟</span>
+</div></div>
+<div class="mf" style="margin-bottom:12px">
+<label style="display:block;font-size:.78rem;color:var(--td);margin-bottom:3px">休息时长</label>
+<div style="display:flex;gap:8px;align-items:center">
+<input type="number" id="editRest" min="1" max="60" value="10" style="flex:1;padding:8px 12px;border:1px solid var(--br);border-radius:8px;font-size:.9rem;font-family:inherit;color:var(--txt);outline:none">
+<span style="font-size:.8rem;color:var(--td)">分钟</span>
+</div></div>
+<div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap">
+<button id="editDeleteBtn" style="flex:0;background:#fef2f2;color:#dc2626;border:none;border-radius:99px;padding:10px 14px;font-size:.85rem;font-weight:600;cursor:pointer;font-family:inherit">🗑</button>
+<button id="editCancelBtn" style="flex:1;background:#f1f5f9;color:var(--txt);border:none;border-radius:99px;padding:10px 20px;font-size:.85rem;font-weight:600;cursor:pointer;font-family:inherit">取消</button>
+<button id="editSaveBtn" style="flex:1;background:var(--focus);color:#fff;border:none;border-radius:99px;padding:10px 20px;font-size:.85rem;font-weight:600;cursor:pointer;font-family:inherit">保存</button>
+</div></div></div>
+
+<div class="modal-overlay" id="modalOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.35);backdrop-filter:blur(4px);z-index:100;justify-content:center;align-items:center;padding:16px">
+<div class="modal" style="background:var(--card);border-radius:16px;padding:28px;max-width:400px;width:100%;text-align:center">
+<h2 id="modalTitle" style="font-size:1.15rem;margin-bottom:4px">时间到！</h2>
+<div class="sub" id="modalSub" style="color:var(--td);font-size:.85rem;margin-bottom:20px">任务计时已结束</div>
 <div id="modalBody">
-<div class="modal-options">
-<button id="optRest">
-<span class="opt-icon">🧘</span>
-<span class="opt-text">
-<span class="opt-title">休息一下</span>
-<span class="opt-desc" id="restDesc">休息 10 分钟后再继续</span>
-</span>
+<div style="display:flex;flex-direction:column;gap:10px">
+<button id="optRest" style="padding:14px 20px;border-radius:12px;border:2px solid var(--br);font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit;text-align:left;display:flex;align-items:center;gap:12px">
+<span style="font-size:1.4rem">🧘</span>
+<span><span style="display:block;font-size:.95rem;color:var(--primary)">休息一下</span><span id="restDesc" style="display:block;font-size:.75rem;color:var(--td);font-weight:400">休息 10 分钟后再继续</span></span>
 </button>
-<button id="optContinue">
-<span class="opt-icon">⚡</span>
-<span class="opt-text">
-<span class="opt-title">任务没完成，继续学</span>
-<span class="opt-desc">缩短休息时间，提前开始下一段</span>
-</span>
+<button id="optContinue" style="padding:14px 20px;border-radius:12px;border:2px solid var(--br);font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit;text-align:left;display:flex;align-items:center;gap:12px">
+<span style="font-size:1.4rem">⚡</span>
+<span><span style="display:block;font-size:.95rem;color:var(--primary)">任务没完成，继续学</span><span style="display:block;font-size:.75rem;color:var(--td);font-weight:400">缩短休息时间，提前开始下一段</span></span>
 </button>
 </div>
-<div class="rest-adjust" id="restAdjust">
-<label>休息时长</label>
-<button class="adj-btn" id="restMinus">−</button>
-<input type="number" id="restInput" value="10" min="1" max="60">
-<button class="adj-btn" id="restPlus">+</button>
-<span style="font-size:.8rem;color:var(--text-dim)">分钟</span>
-</div>
-</div>
+<div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-top:12px;padding:8px;background:#f8fafc;border-radius:10px">
+<label style="font-size:.8rem;color:var(--td)">休息时长</label>
+<button id="restMinus" style="background:var(--card);border:1px solid var(--br);border-radius:6px;padding:4px 10px;cursor:pointer;font-size:1rem;font-weight:700;color:var(--txt);font-family:inherit">−</button>
+<input type="number" id="restInput" value="10" min="1" max="60" style="width:60px;text-align:center;border:1px solid var(--br);border-radius:6px;padding:4px 8px;font-size:.9rem;font-weight:600;font-family:inherit">
+<button id="restPlus" style="background:var(--card);border:1px solid var(--br);border-radius:6px;padding:4px 10px;cursor:pointer;font-size:1rem;font-weight:700;color:var(--txt);font-family:inherit">+</button>
+<span style="font-size:.8rem;color:var(--td)">分钟</span>
+</div></div>
 <div id="modalResting" style="display:none">
-<div style="font-size:2.5rem;font-weight:700;color:var(--rest);font-feature-settings:'tnum';margin:8px 0" id="restTimerDisplay">10:00</div>
-<button class="btn-confirm-rest" id="btnSkipRest">跳过休息 →</button>
+<div style="font-size:2.5rem;font-weight:700;color:var(--rest);margin:8px 0" id="restTimerDisplay">10:00</div>
+<button id="btnSkipRest" style="background:var(--rest);color:#fff;border:none;border-radius:99px;padding:10px 32px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit;margin-top:12px">跳过休息 →</button>
 </div>
 <div id="modalContinue" style="display:none">
-<p style="font-size:.9rem;color:var(--text-dim);margin-bottom:12px">已缩短休息时间，下一段学习马上开始。</p>
-<button class="btn-continue" id="btnConfirmContinue">好，开始下一段</button>
-</div>
-</div>
-</div>
+<p style="font-size:.9rem;color:var(--td);margin-bottom:12px">已缩短休息时间，下一段学习马上开始。</p>
+<button id="btnConfirmContinue" style="background:var(--accent);color:#fff;border:none;border-radius:99px;padding:10px 32px;font-size:.9rem;font-weight:600;cursor:pointer;font-family:inherit">好，开始下一段</button>
+</div></div></div>
 <script>
-const DEFAULT_BLOCKS = [
+const DEFAULT_BLOCKS=[
 {start:'07:00',end:'07:50',icon:'🌅',focusMin:45,restMin:10,task:''},
 {start:'08:00',end:'08:50',icon:'☀️',focusMin:45,restMin:10,task:''},
 {start:'09:00',end:'09:50',icon:'☀️',focusMin:45,restMin:10,task:''},
@@ -194,159 +222,158 @@ const DEFAULT_BLOCKS = [
 {start:'17:00',end:'17:50',icon:'🏃',focusMin:40,restMin:20,task:''},
 {start:'20:00',end:'20:50',icon:'🌙',focusMin:45,restMin:10,task:''}
 ];
-let blocks=[];let currentIdx=-1;let timerState='idle';let timerRemaining=0;let timerInterval=null;let currentPhase='focus';
-const $=(id)=>document.getElementById(id);
-const scheduleEl=$('scheduleContainer');const timerPanel=$('timerPanel');
-const statusBadge=$('statusBadge');const taskName=$('taskName');
-const timerDisplay=$('timerDisplay');const btnStart=$('btnStart');
-const btnPause=$('btnPause');const btnReset=$('btnReset');
-const progressCount=$('progressCount');const celebration=$('celebration');
-const modalOverlay=$('modalOverlay');const modalTitle=$('modalTitle');
-const modalSub=$('modalSub');const modalBody=$('modalBody');
-const modalResting=$('modalResting');const modalContinue=$('modalContinue');
-const restDesc=$('restDesc');const restInput=$('restInput');
-const restTimerDisplay=$('restTimerDisplay');const optRest=$('optRest');
-const optContinue=$('optContinue');const btnSkipRest=$('btnSkipRest');
-const btnConfirmContinue=$('btnConfirmContinue');
-const restMinus=$('restMinus');const restPlus=$('restPlus');
+const R={happy:{e:'😊',l:'满意'},neutral:{e:'😐',l:'一般'},sad:{e:'😞',l:'失望'}};
+let blk=[],ci=-1,ts='idle',tr=0,ti=null,cp='focus',ei=-1,ref={},co=false;
+const $=id=>document.getElementById(id);
+const sc=scheduleContainer,tp=timerPanel,sb=statusBadge,tn=taskName;
+const td=timerDisplay,bs=btnStart,bp=btnPause,br=btnReset;
+const pc=progressCount,cb2=celebration;
+const mo=modalOverlay,mt=modalTitle,ms=modalSub;
+const mb=modalBody,mr=modalResting,mc=modalContinue;
+const rd=restDesc,ri=restInput,rtd=restTimerDisplay;
+const or=optRest,oc=optContinue,bsr=btnSkipRest,bcc=btnConfirmContinue;
+const rmi=restMinus,rpl=restPlus;
+const emo=editModalOverlay,et=editTask,es=editStart,ee=editEnd;
+const ef=editFocus,er=editRest,esb=editSaveBtn,ecb=editCancelBtn;
+const edb=editDeleteBtn,emt=editModalTitle;
+const ss=summarySection,sss=summaryStats,sa=summaryAdvice;
+const sTrig=summaryTrigger,ssb=showSummaryBtn;
+const calD=calendarDays,calTog=calendarToggle,calB=calendarBody;
+const calI=calToggleIcon,calTit=calTitle;
+const WN=['周日','周一','周二','周三','周四','周五','周六'];
+function gdk(d){if(!d)d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function lr(){try{return JSON.parse(localStorage.getItem('sr')||'{}')}catch(e){return {}}}
+function sr2(){localStorage.setItem('sr',JSON.stringify(ref));}
+function gdr(k){return ref[k]||null;}
+function sdr(k,v){ref[k]=v;sr2();}
+function lcb(){try{return JSON.parse(localStorage.getItem('scb')||'{}')}catch(e){return {}}}
+function scb2(v){localStorage.setItem('scb',JSON.stringify(v));}
 function init(){
-const saved=localStorage.getItem('summer_plan_blocks');
-if(saved){try{blocks=JSON.parse(saved)}catch(e){blocks=JSON.parse(JSON.stringify(DEFAULT_BLOCKS))}}
-else{blocks=JSON.parse(JSON.stringify(DEFAULT_BLOCKS))}
-const si=localStorage.getItem('summer_plan_currentIdx');
-const st=localStorage.getItem('summer_plan_timerRemaining');
-const ss=localStorage.getItem('summer_plan_timerState');
-const sp=localStorage.getItem('summer_plan_phase');
-if(ss&&ss!=='idle'){currentIdx=si?parseInt(si):-1;timerRemaining=st?parseInt(st):0;timerState=ss;currentPhase=sp||'focus'}
-updateDate();renderSchedule();
-if(currentIdx>=0&&timerState!=='idle')startTimerFromSaved();else updateTimerPanel();
+const t=gdk();const cb=lcb();
+if(cb[t]){blk=JSON.parse(JSON.stringify(cb[t]));}else{blk=JSON.parse(JSON.stringify(DEFAULT_BLOCKS));}
+ref=lr();
+const si=localStorage.getItem('sci'),st2=localStorage.getItem('str'),ss2=localStorage.getItem('sts'),sp=localStorage.getItem('sph');
+if(ss2&&ss2!=='idle'){ci=si?parseInt(si):-1;tr=st2?parseInt(st2):0;ts=ss2;cp=sp||'focus';}
+const d=new Date();dateDisplay.textContent=d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日 '+WN[d.getDay()];
+ra();
+if(ci>=0&&ts!=='idle')stfs();else utp();
+chks();
 }
-function updateDate(){
-const d=new Date();const wk=['周日','周一','周二','周三','周四','周五','周六'];
-$('dateDisplay').textContent=d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日 '+wk[d.getDay()];
+function ss3(){
+const t=gdk();const cb=lcb();cb[t]=JSON.parse(JSON.stringify(blk));scb2(cb);
+localStorage.setItem('sci',ci);localStorage.setItem('str',tr);
+localStorage.setItem('sts',ts);localStorage.setItem('sph',cp);
 }
-function saveState(){
-localStorage.setItem('summer_plan_blocks',JSON.stringify(blocks));
-localStorage.setItem('summer_plan_currentIdx',currentIdx);
-localStorage.setItem('summer_plan_timerRemaining',timerRemaining);
-localStorage.setItem('summer_plan_timerState',timerState);
-localStorage.setItem('summer_plan_phase',currentPhase);
-}
-function renderSchedule(){
-scheduleEl.innerHTML='';let completed=0;
-blocks.forEach((b,i)=>{
-if(b.status==='completed')completed++;const isLast=i===blocks.length-1;
-const el=document.createElement('div');el.className='block';
-if(i===currentIdx&&timerState!=='idle')el.classList.add('active');
-if(b.status==='completed')el.classList.add('completed');
-el.innerHTML='<div class="block-time">'+b.icon+' '+b.start+'\u2013'+b.end+'</div>'+
-'<div class="block-meta"><span class="dur">学习 '+b.focusMin+'\u2032</span><span style="color:var(--text-dim)">\u00b7</span><span class="dur" style="background:#ecfdf5;color:var(--rest)">休息 '+b.restMin+'\u2032</span></div>'+
-'<div class="block-input"><input type="text" placeholder="填写此段任务\u2026" value="'+(b.task||'').replace(/"/g,'&quot;')+'" data-idx="'+i+'"></div>'+
-'<div class="block-actions">'+(b.status==='completed'?'<span class="block-status done">\u2713 完成</span>':'<button class="btn-block-start" data-idx="'+i+'"'+(timerState!=='idle'&&i!==currentIdx?' disabled':'')+'>'+(i===currentIdx&&(timerState==='focusing'||timerState==='paused')?'进行中':'开始')+'</button>')+'</div>';
-scheduleEl.appendChild(el);
-if(!isLast){const c=document.createElement('div');c.className='timeline-connector';c.innerHTML='<span class="rest-label">休息 '+b.restMin+'\u2032</span>';scheduleEl.appendChild(c);}
+function ra(){rs();rc();}
+function rs(){
+sc.innerHTML='';let co2=0;
+blk.forEach((b,i)=>{
+if(b.status==='completed')co2++;const il=i===blk.length-1;
+const el=document.createElement('div');el.className='blk';
+if(i===ci&&ts!=='idle')el.classList.add('act');
+if(b.status==='completed')el.classList.add('done');
+const ic=b.icon||'📌';
+el.innerHTML='<div class="tm" data-i="'+i+'">'+ic+' '+b.start+'\u2013'+b.end+'</div>'+
+'<div class="bm"><span class="dur">学习 '+b.focusMin+'\u2032</span><span style="color:var(--td)">\u00b7</span><span class="dur" style="background:#ecfdf5;color:var(--rest)">休息 '+b.restMin+'\u2032</span></div>'+
+'<div class="bi"><input type="text" placeholder="填写此段任务\u2026" value="'+(b.task||'').replace(/"/g,'&quot;')+'" data-i="'+i+'"></div>'+
+'<div class="ba">'+(b.status==='completed'?'<span class="bs2 d">\u2713 完成</span>':'<button class="bb" data-i="'+i+'"'+(ts!=='idle'&&i!==ci?' disabled':'')+'>'+(i===ci&&(ts==='focusing'||ts==='paused')?'进行中':'开始')+'</button>')+
+'<button class="be" data-i="'+i+'">\u270F\uFE0F</button></div>';
+sc.appendChild(el);
+if(!il){const c=document.createElement('div');c.className='tc';c.innerHTML='<span class="rl">休息 '+b.restMin+'\u2032</span>';sc.appendChild(c);}
 });
-progressCount.textContent=completed+'/'+blocks.length+' 已完成';
-celebration.style.display=completed===blocks.length?'block':'none';
-timerPanel.style.display=(completed===blocks.length&&timerState==='idle')?'none':'';
-scheduleEl.querySelectorAll('input').forEach(inp=>{inp.addEventListener('change',function(){const idx=parseInt(this.dataset.idx);blocks[idx].task=this.value;saveState();})});
-scheduleEl.querySelectorAll('.btn-block-start').forEach(btn=>{btn.addEventListener('click',function(){startBlock(parseInt(this.dataset.idx))})});
+pc.textContent=co2+'/'+blk.length+' 已完成';
+cb2.style.display=(co2===blk.length&&ts==='idle')?'block':'none';
+tp.style.display=(co2===blk.length&&ts==='idle')?'none':'';
+sc.querySelectorAll('.bi input').forEach(inp=>{inp.addEventListener('change',function(){blk[parseInt(this.dataset.i)].task=this.value;ss3();})});
+sc.querySelectorAll('.bb').forEach(btn=>{btn.addEventListener('click',function(){sb2(parseInt(this.dataset.i));})});
+sc.querySelectorAll('.be').forEach(btn=>{btn.addEventListener('click',function(e){e.stopPropagation();oem(parseInt(this.dataset.i));})});
+sc.querySelectorAll('.tm').forEach(el=>{el.addEventListener('click',function(){oem(parseInt(this.dataset.i));})});
 }
-function startBlock(idx){
-if(timerState!=='idle'||blocks[idx].status==='completed')return;
-currentIdx=idx;timerState='focusing';currentPhase='focus';
-timerRemaining=blocks[idx].focusMin*60;updateTimerPanel();renderSchedule();startCountdown();saveState();
+function oem(i){
+ei=i;const b=blk[i];et.value=b.task||'';es.value=b.start;ee.value=b.end;ef.value=b.focusMin;er.value=b.restMin;
+emt.textContent='编辑时间段 '+(i+1);edb.style.display='block';emo.style.display='flex';
 }
-function updateTimerPanel(){
-if(currentIdx<0||currentIdx>=blocks.length||blocks[currentIdx]?.status==='completed'){
-timerPanel.className='timer-panel idle';statusBadge.className='status-badge idle';statusBadge.textContent='待开始';
-taskName.textContent='选择下方一个时间段开始';timerDisplay.textContent='45:00';timerDisplay.className='timer-display';
-btnStart.disabled=true;btnStart.style.display='';btnPause.style.display='none';btnReset.style.display='none';return;
-}
-const b=blocks[currentIdx];
-taskName.textContent=(b.task||'未填写任务')+' \u00b7 '+b.start+'\u2013'+b.end;
-if(timerState==='focusing'){
-timerPanel.className='timer-panel';statusBadge.className='status-badge focusing';statusBadge.textContent='专注中';
-timerDisplay.className='timer-display';btnStart.style.display='none';btnPause.style.display='';btnReset.style.display='';
-}else if(timerState==='paused'){
-timerPanel.className='timer-panel';statusBadge.className='status-badge focusing';statusBadge.textContent='已暂停';
-timerDisplay.className='timer-display';btnStart.textContent='继续';btnStart.disabled=false;btnStart.style.display='';btnPause.style.display='none';btnReset.style.display='';
-}else if(timerState==='resting'){
-timerPanel.className='timer-panel';statusBadge.className='status-badge resting';statusBadge.textContent='休息中';
-timerDisplay.className='timer-display rest-mode';btnStart.style.display='none';btnPause.style.display='none';btnReset.style.display='none';
-}else{
-timerPanel.className='timer-panel idle';statusBadge.className='status-badge idle';statusBadge.textContent='待开始';
-timerDisplay.className='timer-display';btnStart.textContent='开始专注';btnStart.disabled=false;btnStart.style.display='';btnPause.style.display='none';btnReset.style.display='none';
-}
-const m=Math.floor(timerRemaining/60),s=timerRemaining%60;
-timerDisplay.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
-}
-function startCountdown(){
-clearInterval(timerInterval);
-timerInterval=setInterval(()=>{
-if(timerState==='focusing'||timerState==='resting'){
-timerRemaining--;
-if(timerRemaining<=0){clearInterval(timerInterval);timerRemaining=0;if(currentPhase==='focus')onFocusComplete();else onRestComplete();return;}
-const m=Math.floor(timerRemaining/60),s=timerRemaining%60;
-timerDisplay.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');saveState();
-}
-},1000);
-}
-function startTimerFromSaved(){
-if(timerState==='focusing'||timerState==='resting'){updateTimerPanel();startCountdown();}
-else if(timerState==='paused')updateTimerPanel();
-}
-btnStart.addEventListener('click',()=>{
-if(timerState==='paused'){timerState='focusing';currentPhase='focus';updateTimerPanel();startCountdown();saveState();}
-else if(currentIdx>=0&&timerState==='idle')startBlock(currentIdx);
+function cem(){emo.style.display='none';ei=-1;}
+addBlockBtn.addEventListener('click',()=>{
+ei=-1;et.value='';const l=blk[blk.length-1];
+if(l){const h=parseInt(l.end.split(':')[0]),m=parseInt(l.end.split(':')[1])+10;
+es.value=(m>=60?String(h+1).padStart(2,'0')+':'+String(m-60).padStart(2,'0'):String(h).padStart(2,'0')+':'+String(m).padStart(2,'0'));}
+else{es.value='21:00';}
+const sh=parseInt(es.value.split(':')[0]),sm=parseInt(es.value.split(':')[1])+50;
+ee.value=(sm>=60?String(sh+1).padStart(2,'0')+':'+String(sm-60).padStart(2,'0'):String(sh).padStart(2,'0')+':'+String(sm).padStart(2,'0'));
+ef.value=45;er.value=10;emt.textContent='添加新时间段';edb.style.display='none';emo.style.display='flex';
 });
-btnPause.addEventListener('click',()=>{if(timerState==='focusing'){timerState='paused';clearInterval(timerInterval);updateTimerPanel();saveState();}});
-btnReset.addEventListener('click',()=>{clearInterval(timerInterval);timerState='idle';currentPhase='focus';currentIdx=-1;timerRemaining=0;modalOverlay.classList.remove('open');updateTimerPanel();renderSchedule();saveState();});
-function onFocusComplete(){
-timerState='idle';const b=blocks[currentIdx];showModal(b.restMin);updateTimerPanel();saveState();
-}
-function showModal(d){
-modalBody.style.display='';modalResting.style.display='none';modalContinue.style.display='none';
-modalTitle.textContent='时间到！';modalSub.textContent='当前学习时段已完成，接下来做什么？';
-restInput.value=d||10;restDesc.textContent='休息 '+restInput.value+' 分钟后再继续';modalOverlay.classList.add('open');
-}
-restMinus.addEventListener('click',()=>{let v=parseInt(restInput.value)||1;if(v>1)v--;restInput.value=v;restDesc.textContent='休息 '+v+' 分钟后再继续';});
-restPlus.addEventListener('click',()=>{let v=parseInt(restInput.value)||10;if(v<60)v++;restInput.value=v;restDesc.textContent='休息 '+v+' 分钟后再继续';});
-restInput.addEventListener('change',()=>{let v=parseInt(restInput.value)||10;if(v<1)v=1;if(v>60)v=60;restInput.value=v;restDesc.textContent='休息 '+v+' 分钟后再继续';});
-optRest.addEventListener('click',()=>{const m=parseInt(restInput.value)||10;startRest(m);});
-function startRest(minutes){
-modalBody.style.display='none';modalResting.style.display='';modalTitle.textContent='\u{1F9D8} 休息时间';
-modalSub.textContent='休息 '+minutes+' 分钟，放松一下';timerState='resting';currentPhase='rest';
-timerRemaining=minutes*60;updateTimerPanel();startCountdown();
-const mm=Math.floor(timerRemaining/60),ss=timerRemaining%60;
-restTimerDisplay.textContent=String(mm).padStart(2,'0')+':'+String(ss).padStart(2,'0');saveState();
-const ri=setInterval(()=>{if(timerState==='resting'&&modalOverlay.classList.contains('open')){const a=Math.floor(timerRemaining/60),b=timerRemaining%60;restTimerDisplay.textContent=String(a).padStart(2,'0')+':'+String(b).padStart(2,'0');}else clearInterval(ri);},500);
-}
-btnSkipRest.addEventListener('click',()=>{clearInterval(timerInterval);timerRemaining=0;onRestComplete();});
-optContinue.addEventListener('click',()=>{modalBody.style.display='none';modalContinue.style.display='';modalTitle.textContent='\u26A1 继续前进';modalSub.textContent='休息时间已缩短，下一段提前开始';});
-btnConfirmContinue.addEventListener('click',()=>{
-const nx=currentIdx+1;
-if(nx<blocks.length){
-blocks[currentIdx].restMin=Math.max(2,Math.floor(blocks[currentIdx].restMin/3));
-blocks[currentIdx].status='completed';currentIdx=nx;timerState='focusing';currentPhase='focus';
-timerRemaining=blocks[nx].focusMin*60;modalOverlay.classList.remove('open');updateTimerPanel();renderSchedule();startCountdown();saveState();
-}else{blocks[currentIdx].status='completed';currentIdx=-1;timerState='idle';timerRemaining=0;modalOverlay.classList.remove('open');renderSchedule();updateTimerPanel();saveState();}
+esb.addEventListener('click',()=>{
+const ta=et.value.trim(),st=es.value,en=ee.value,fo=parseInt(ef.value)||45,re=parseInt(er.value)||10;
+if(!st||!en){alert('请填写时间');return;}
+const ic=((h)=>{if(h<8)return'🌅';if(h<12)return'☀️';if(h<14)return'🍳';if(h<17)return'🌤️';if(h<19)return'🏃';return'🌙';})(parseInt(st));
+if(ei>=0){blk[ei].task=ta;blk[ei].start=st;blk[ei].end=en;blk[ei].focusMin=fo;blk[ei].restMin=re;blk[ei].icon=ic;if(blk[ei].status==='completed')blk[ei].status='';}
+else{blk.push({start:st,end:en,icon:ic,focusMin:fo,restMin:re,task:ta,status:''});}
+cem();ss3();ra();utp();
 });
-function onRestComplete(){
-timerState='idle';const b=blocks[currentIdx];if(b)b.status='completed';modalOverlay.classList.remove('open');
-const nx=currentIdx+1;
-if(nx<blocks.length){currentIdx=nx;timerState='focusing';currentPhase='focus';timerRemaining=blocks[nx].focusMin*60;updateTimerPanel();renderSchedule();startCountdown();saveState();}
-else{currentIdx=-1;timerRemaining=0;updateTimerPanel();renderSchedule();saveState();}
+ecb.addEventListener('click',cem);
+edb.addEventListener('click',()=>{
+if(ei<0||blk.length<=1){alert('至少保留一个时间段');return;}
+if(!confirm('删除此时间段？'))return;
+blk.splice(ei,1);
+if(ci===ei){ci=-1;ts='idle';tr=0;clearInterval(ti);}
+else if(ci>ei)ci--;
+cem();ss3();ra();utp();
+});
+function sb2(idx){
+if(ts!=='idle'||blk[idx].status==='completed')return;
+ci=idx;ts='focusing';cp='focus';tr=blk[idx].focusMin*60;utp();ra();sc2();ss3();
 }
-function resetDay(){
-if(!confirm('重置后将清除所有任务和进度，确定吗？'))return;
-blocks=JSON.parse(JSON.stringify(DEFAULT_BLOCKS));currentIdx=-1;timerState='idle';timerRemaining=0;currentPhase='focus';
-clearInterval(timerInterval);modalOverlay.classList.remove('open');timerPanel.style.display='';
-localStorage.removeItem('summer_plan_blocks');localStorage.removeItem('summer_plan_currentIdx');
-localStorage.removeItem('summer_plan_timerRemaining');localStorage.removeItem('summer_plan_timerState');localStorage.removeItem('summer_plan_phase');
-renderSchedule();updateTimerPanel();
+function utp(){
+if(ci<0||ci>=blk.length||blk[ci]?.status==='completed'){
+tp.className='timer-panel idle';sb.className='sb idle';sb.textContent='待开始';
+tn.textContent='选择下方一个时间段开始';td.textContent='45:00';td.className='td';
+bs.disabled=true;bs.style.display='';bp.style.display='none';br.style.display='none';return;
 }
-document.addEventListener('keydown',e=>{if(e.key===' '&&timerState!=='idle'&&!modalOverlay.classList.contains('open')){e.preventDefault();if(timerState==='focusing')btnPause.click();else if(timerState==='paused')btnStart.click();}});
+const b=blk[ci];tn.textContent=(b.task||'未填写任务')+' \u00b7 '+b.start+'\u2013'+b.end;
+if(ts==='focusing'){tp.className='timer-panel';sb.className='sb focus';sb.textContent='专注中';td.className='td';bs.style.display='none';bp.style.display='';br.style.display='';}
+else if(ts==='paused'){tp.className='timer-panel';sb.className='sb focus';sb.textContent='已暂停';td.className='td';bs.textContent='继续';bs.disabled=false;bs.style.display='';bp.style.display='none';br.style.display='';}
+else if(ts==='resting'){tp.className='timer-panel';sb.className='sb rest';sb.textContent='休息中';td.className='td rm';bs.style.display='none';bp.style.display='none';br.style.display='none';}
+else{tp.className='timer-panel idle';sb.className='sb idle';sb.textContent='待开始';td.className='td';bs.textContent='开始专注';bs.disabled=false;bs.style.display='';bp.style.display='none';br.style.display='none';}
+const m=Math.floor(tr/60),s=tr%60;td.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+}
+function sc2(){clearInterval(ti);ti=setInterval(()=>{if(ts==='focusing'||ts==='resting'){tr--;if(tr<=0){clearInterval(ti);tr=0;if(cp==='focus')ofc();else orc();return;}const m=Math.floor(tr/60),s=tr%60;td.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');ss3();}},1000);}
+function stfs(){if(ts==='focusing'||ts==='resting'){utp();sc2();}else if(ts==='paused')utp();}
+bs.addEventListener('click',()=>{if(ts==='paused'){ts='focusing';cp='focus';utp();sc2();ss3();}else if(ci>=0&&ts==='idle')sb2(ci);});
+bp.addEventListener('click',()=>{if(ts==='focusing'){ts='paused';clearInterval(ti);utp();ss3();}});
+br.addEventListener('click',()=>{clearInterval(ti);ts='idle';cp='focus';ci=-1;tr=0;mo.style.display='none';utp();ra();ss3();});
+function ofc(){ts='idle';const b=blk[ci];sm(b.restMin);utp();ss3();}
+function sm(d){mb.style.display='';mr.style.display='none';mc.style.display='none';mt.textContent='时间到！';ms.textContent='当前学习时段已完成，接下来做什么？';ri.value=d||10;rd.textContent='休息 '+ri.value+' 分钟后再继续';mo.style.display='flex';}
+rmi.addEventListener('click',()=>{let v=parseInt(ri.value)||1;if(v>1)v--;ri.value=v;rd.textContent='休息 '+v+' 分钟后再继续';});
+rpl.addEventListener('click',()=>{let v=parseInt(ri.value)||10;if(v<60)v++;ri.value=v;rd.textContent='休息 '+v+' 分钟后再继续';});
+ri.addEventListener('change',()=>{let v=parseInt(ri.value)||10;if(v<1)v=1;if(v>60)v=60;ri.value=v;rd.textContent='休息 '+v+' 分钟后再继续';});
+or.addEventListener('click',()=>{const m=parseInt(ri.value)||10;sr3(m);});
+function sr3(m){mb.style.display='none';mr.style.display='';mt.textContent='休息时间';ms.textContent='休息 '+m+' 分钟，放松一下';ts='resting';cp='rest';tr=m*60;utp();sc2();const mm=Math.floor(tr/60),ss=tr%60;rtd.textContent=String(mm).padStart(2,'0')+':'+String(ss).padStart(2,'0');ss3();const ri2=setInterval(()=>{if(ts==='resting'&&mo.style.display==='flex'){const a=Math.floor(tr/60),b=tr%60;rtd.textContent=String(a).padStart(2,'0')+':'+String(b).padStart(2,'0');}else clearInterval(ri2);},500);}
+bsr.addEventListener('click',()=>{clearInterval(ti);tr=0;orc();});
+oc.addEventListener('click',()=>{mb.style.display='none';mc.style.display='';mt.textContent='继续前进';ms.textContent='休息时间已缩短，下一段提前开始';});
+bcc.addEventListener('click',()=>{const nx=ci+1;if(nx<blk.length){blk[ci].restMin=Math.max(2,Math.floor(blk[ci].restMin/3));blk[ci].status='completed';ci=nx;ts='focusing';cp='focus';tr=blk[nx].focusMin*60;mo.style.display='none';utp();ra();sc2();ss3();}else{blk[ci].status='completed';ci=-1;ts='idle';tr=0;mo.style.display='none';ra();utp();ss3();}});
+function orc(){ts='idle';const b=blk[ci];if(b)b.status='completed';mo.style.display='none';const nx=ci+1;if(nx<blk.length){ci=nx;ts='focusing';cp='focus';tr=blk[nx].focusMin*60;utp();ra();sc2();ss3();}else{ci=-1;tr=0;utp();ra();ss3();}}
+function resetDay(){if(!confirm('重置后将清除所有任务和进度，确定吗？'))return;blk=JSON.parse(JSON.stringify(DEFAULT_BLOCKS));ci=-1;ts='idle';tr=0;cp='focus';clearInterval(ti);mo.style.display='none';tp.style.display='';const t=gdk();const cb=lcb();delete cb[t];scb2(cb);localStorage.removeItem('sci');localStorage.removeItem('str');localStorage.removeItem('sts');localStorage.removeItem('sph');ra();utp();cem();}
+function chks(){const h=new Date().getHours();if(h>=22||h<6||blk.every(b=>b.status==='completed'))shs();}
+function shs(){const co2=blk.filter(b=>b.status==='completed').length;const tl=blk.length;const rt=tl>0?Math.round(co2/tl*100):0;
+sss.innerHTML='<div class="ss2"><div class="num">'+co2+'/'+tl+'</div><div class="lbl">完成时段</div></div><div class="ss2 '+(rt>=80?'sh':rt>=50?'sm':'sl')+'"><div class="num">'+rt+'</div><div class="lbl">完成率</div></div><div class="ss2 '+(rt>=80?'sh':rt>=50?'sm':'sl')+'"><div class="num">'+(rt>=90?'A+':rt>=80?'A':rt>=70?'B+':rt>=60?'B':rt>=50?'C':rt>=30?'D':'E')+'</div><div class="lbl">综合评分</div></div>';
+sa.textContent=rt>=90?'今天非常棒！几乎完成了所有计划，继续保持。适当地奖励自己一下吧。':rt>=80?'今天做得很不错！大部分计划都完成了。明天微调一下时间安排会更高效。':rt>=60?'今天完成了一半以上的计划，还可以。找出影响效率的环节，明天改进。':rt>=40?'今天完成的不多，可能计划偏多了。明天减少一些时间段，重质量而非数量。':'今天完成得较少，万事开头难。从少量简单的任务开始，先建立习惯，再逐步增加。加油！';
+const t=gdk();const cr=gdr(t);
+document.querySelectorAll('.rb button').forEach(b=>{b.classList.toggle('act',b.dataset.value===cr);b.onclick=()=>{document.querySelectorAll('.rb button').forEach(x=>x.classList.remove('act'));b.classList.add('act');sdr(t,b.dataset.value);rc();};});
+ss.classList.add('s');sTrig.style.display='none';}
+ssb.addEventListener('click',shs);
+function rc(){const n=new Date();const y=n.getFullYear();const m=n.getMonth();calTit.textContent='📅 '+y+'年'+(m+1)+'月';const f=new Date(y,m,1).getDay();const dim=new Date(y,m+1,0).getDate();const pd=new Date(y,m,0).getDate();const tn=n.getDate();let html='';const so=f===0?6:f-1;for(let i=0;i<so;i++){const d=pd-so+i+1;const k=gdk(new Date(y,m-1,d));const e=gdr(k);html+='<div class="cd2 om"><span class="dn">'+d+'</span>'+(e?'<span class="de">'+R[e].e+'</span>':'')+'</div>';}
+for(let d=1;d<=dim;d++){const tc=d===tn?' t':'';const k=gdk(new Date(y,m,d));const e=gdr(k);html+='<div class="cd2'+tc+'" data-d="'+k+'"><span class="dn">'+d+'</span>'+(e?'<span class="de">'+R[e].e+'</span>':'')+'</div>';}
+const rem=(7-((so+dim)%7))%7;for(let d=1;d<=rem;d++){const k=gdk(new Date(y,m+1,d));const e=gdr(k);html+='<div class="cd2 om"><span class="dn">'+d+'</span>'+(e?'<span class="de">'+R[e].e+'</span>':'')+'</div>';}
+calD.innerHTML=html;calD.querySelectorAll('.cd2:not(.om)').forEach(el=>{el.addEventListener('click',function(){const k=this.dataset.d;const em=gdr(k);if(em){alert(R[em].e+' '+k+'\n感受: '+R[em].l);}else if(!(k===gdk())){alert(k+'\n当天没有记录');}});});
+const rl=lr();const tk=gdk();sTrig.style.display=rl[tk]?'none':(((h)=>h>=22||h<=6)(new Date().getHours())?'':'none');}
+calTog.addEventListener('click',()=>{co=!co;calB.classList.toggle('o',co);calI.classList.toggle('o',co);});
+setTimeout(()=>{const h=new Date().getHours();if(h>=22||h<=6)shs();},1000);
+setInterval(()=>{const h=new Date().getHours();if((h>=22||h<=6)&&!ss.classList.contains('s'))shs();},60000);
+document.addEventListener('keydown',e=>{
+if(e.key===' '&&ts!=='idle'&&mo.style.display!=='flex'){e.preventDefault();if(ts==='focusing')bp.click();else if(ts==='paused')bs.click();}
+if(e.key==='Escape')cem();
+});
 init();
 </script>
 </body>
