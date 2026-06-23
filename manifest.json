@@ -1,0 +1,29 @@
+{
+  "name": "暑期日课",
+  "short_name": "日课",
+  "description": "每日学习计划与计时工具",
+  "start_url": "暑期日课.html",
+  "display": "standalone",
+  "background_color": "#f6f5f1",
+  "theme_color": "#d97706",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
